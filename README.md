@@ -1,4 +1,4 @@
-# bookstore-api-testing
+# bookstore-api-tests
 
 __Description__: Demonstrate test automation of [Book Store API](https://demoqa.com/swagger) using Python and PyTest.
 
