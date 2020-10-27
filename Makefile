@@ -15,7 +15,6 @@ test:
 	pytest -s -v --setup-show -n auto --html=reports/report.html --self-contained-html
 	# pytest -s -v --setup-show -n auto -p no:randomly --html=reports/report.html --self-contained-html
 	# pytest -s -v --setup-show -n auto -p no:randomly --html=reports/report.html --self-contained-html --count=10
-    # pytest -s -v --setup-show -n auto -p --html=reports/report.html --self-contained-html
 
 lint:
 	pylint tests
