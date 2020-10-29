@@ -40,3 +40,21 @@ class BaseTest:
         url = self.base_url + '/Account/v1/GenerateToken'
         # todo: add headers
         return requests.post(url, user)
+
+    def pprint_request(self, request):
+        """This method will pretty print the Request object to stdout."""
+        print('\n{}\n{}\n\n{}\n\n{}\n'.format(
+            '---------------- request -----------------',
+            request.method + ' ' + request.url,
+            '\n'.join('{}: {}'.format(k, v) for k, v in request.headers.items()),
+            request.body)
+        )
+
+    def pprint_response(self, resp):
+        """This method will pretty print the Response object to stdout."""
+        print('\n{}\n{}\n\n{}\n\n{}\n'.format(
+            '---------------- response ----------------',
+            str(resp.status_code) + ' ' + str(resp.reason) + ' ' + str(resp.url),
+            '\n'.join('{}: {}'.format(k, v) for k, v in resp.headers.items()),
+            resp.text)
+        )

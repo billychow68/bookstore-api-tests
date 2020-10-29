@@ -12,6 +12,8 @@ class TestAccountsAPI(BaseTest):
         assert resp.status_code == 201
         assert resp_body["username"] == user["userName"]
         assert resp_body["userID"] != ""
+        self.pprint_request(resp.request)
+        self.pprint_response(resp)
         pass
 
     data1 = [[{"userName": "user123", "password": "abcdefgh"}, 400, 26],
@@ -35,6 +37,8 @@ class TestAccountsAPI(BaseTest):
         resp = self.create_user(user)
         assert resp.status_code == status_code
         assert resp.text.find("Passwords must have at least one non alphanumeric character") == len_
+        self.pprint_request(resp.request)
+        self.pprint_response(resp)
         pass
 
     def test_delete_existing_user_basic_auth(self):
@@ -42,8 +46,12 @@ class TestAccountsAPI(BaseTest):
         resp = self.create_user(user)
         assert resp.status_code == 201
         resp_body = resp.json()
-        resp = self.delete_user_basic_auth(resp_body["userID"], user)
-        assert resp.status_code == 204
+        self.pprint_request(resp.request)
+        self.pprint_response(resp)
+        resp2 = self.delete_user_basic_auth(resp_body["userID"], user)
+        assert resp2.status_code == 204
+        self.pprint_request(resp2.request)
+        self.pprint_response(resp2)
         pass
 
     def test_delete_existing_user_token(self):
@@ -52,20 +60,30 @@ class TestAccountsAPI(BaseTest):
         assert resp1.status_code == 201
         resp_body1 = resp1.json()
         uuid_ = resp_body1["userID"]
+        self.pprint_request(resp1.request)
+        self.pprint_response(resp1)
         resp2 = self.generate_token(user)
         assert resp2.status_code == 200
         resp_body2 = resp2.json()
         token = resp_body2["token"]
+        self.pprint_request(resp2.request)
+        self.pprint_response(resp2)
         resp3 = self.delete_user_token(uuid_, token)
         assert resp3.status_code == 204
+        self.pprint_request(resp3.request)
+        self.pprint_response(resp3)
         pass
 
     def test_delete_user_with_invalid_uuid_basic_auth(self):
         user = self.generate_username_password()
-        response = self.create_user(user)
-        assert response.status_code == 201
+        resp1 = self.create_user(user)
+        assert resp1.status_code == 201
+        self.pprint_request(resp1.request)
+        self.pprint_response(resp1)
         uuid_ = str(uuid.uuid4())
-        response = self.delete_user_basic_auth(uuid_, user)
-        assert response.status_code == 200
-        assert response.text == '{"code":"1207","message":"User Id not correct!"}'
+        resp2 = self.delete_user_basic_auth(uuid_, user)
+        assert resp2.status_code == 200
+        assert resp2.text == '{"code":"1207","message":"User Id not correct!"}'
+        self.pprint_request(resp2.request)
+        self.pprint_response(resp2)
         pass

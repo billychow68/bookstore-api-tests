@@ -1,22 +1,7 @@
 import pytest
-from datetime import datetime
-import sys
 import os
 import rootpath
 import shutil
-import json
-import time
-
-# @pytest.fixture
-# def new_user():
-#     time.sleep(1)
-#     username = generate_username()
-#     password = "Test!234"
-#     # ms = datetime.utcnow().strftime('%s.%f')[:-8]
-#     # user = "user-" + ms
-#     # password = "P@ss-" + ms
-#     # yield ["user-"+ms, "Test!-"+ms]
-#     return [username, password]
 
 def pytest_sessionstart(session):
     path = os.path.join(rootpath.detect(), "reports")
