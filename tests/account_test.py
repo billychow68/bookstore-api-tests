@@ -3,7 +3,7 @@ import pytest
 import uuid
 
 
-class TestAccountsAPI(BaseTest):
+class TestAccountAPI(BaseTest):
 
     def test_create_user_with_valid_input(self):
         # setup
