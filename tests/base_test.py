@@ -16,33 +16,33 @@ class BaseTest:
         return {"userName": username, "password": password}
 
     def create_user(self, user):
-        """This method calls the accounts create user endpoint and returns the response object."""
+        """This method calls the account create user endpoint and returns the response object."""
         url = self.base_url + '/Account/v1/User'
         headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
         payload = user
         return requests.post(url, data=payload, json=headers)
 
     def delete_user_basic_auth(self, uuid_, user):
-        """This method calls the deletion endpoint using basic auth and returns the response object."""
+        """This method calls the account delete user endpoint using basic auth and returns the response object."""
         url = self.base_url + '/Account/v1/User/' + uuid_
         auth = HTTPBasicAuth(user["userName"], user["password"])
         headers = {'Accept': "application/json"}
         return requests.delete(url, auth=auth, json=headers)
 
     def delete_user_token(self, uuid_, token):
-        """This method calls the user deletion endpoint using a token and returns the response object. """
+        """This method calls the account delete user endpoint using a token and returns the response object. """
         url = self.base_url + '/Account/v1/User/' + uuid_
         headers = '{"Authorization": "Bearer ' + token + '", "Accept": "application/json"}'
         return requests.delete(url, headers=json.loads(headers))
 
     def generate_token(self, user):
-        """This method calls the generate token endpoing and returns the response object."""
+        """This method calls the account generate token endpoint and returns the response object."""
         url = self.base_url + '/Account/v1/GenerateToken'
         # todo: add headers
         return requests.post(url, user)
 
     def pprint_request(self, request):
-        """This method will pretty print the Request object to stdout."""
+        """This method will pretty print the Request object to HTML report."""
         print('\n{}\n{}\n\n{}\n\n{}\n'.format(
             '---------------- request -----------------',
             request.method + ' ' + request.url,
@@ -51,7 +51,7 @@ class BaseTest:
         )
 
     def pprint_response(self, resp):
-        """This method will pretty print the Response object to stdout."""
+        """This method will pretty print the Response object to HTML report."""
         print('\n{}\n{}\n\n{}\n\n{}\n'.format(
             '---------------- response ----------------',
             str(resp.status_code) + ' ' + str(resp.reason) + ' ' + str(resp.url),

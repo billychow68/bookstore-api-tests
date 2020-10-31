@@ -1,11 +1,13 @@
-from tests.base_test import BaseTest
 import pytest
 import uuid
+from tests.base_test import BaseTest
 
 
 class TestAccountAPI(BaseTest):
+    """This class contains the test cases for Account API."""
 
     def test_create_user_with_valid_input(self):
+        """This test case will create a user with valid input."""
         # setup
         user = self.generate_username_password()
 
@@ -22,8 +24,15 @@ class TestAccountAPI(BaseTest):
             self.pprint_request(resp.request)
             self.pprint_response(resp)
 
-        # teardown
-        # todo: need to delete the user
+        # teardown:
+        resp2 = self.delete_user_basic_auth(resp_body["userID"], user)
+        try:
+            assert resp2.status_code == 204
+        except AssertionError:
+            raise
+        finally:
+            self.pprint_request(resp2.request)
+            self.pprint_response(resp2)
 
     data1 = [[{"userName": "user123", "password": "abcdefgh"}, 400, 26],
              [{"userName": "user123", "password": "12345678"}, 400, 26],
@@ -42,8 +51,9 @@ class TestAccountAPI(BaseTest):
              [{"userName": "", "password": ""}, 400, -1]]
 
     @pytest.mark.parametrize("user, status_code, len_", data1)
-    def test_create_user_with_invalid_inputs(self, user, status_code, len_):
-        # setup
+    def test_create_user_with_invalid_input(self, user, status_code, len_):
+        """This test case will attempt to create users with invalid input."""
+        # setup: none
 
         # test
         resp = self.create_user(user)
@@ -56,9 +66,10 @@ class TestAccountAPI(BaseTest):
             self.pprint_request(resp.request)
             self.pprint_response(resp)
 
-        # teardown
+        # teardown: none
 
-    def test_delete_existing_user_basic_auth(self):
+    def test_delete_existing_user_with_valid_input_using_basic_auth(self):
+        """This test case will delete a valid user using Basic Auth."""
         # setup
         user = self.generate_username_password()
         resp = self.create_user(user)
@@ -81,9 +92,10 @@ class TestAccountAPI(BaseTest):
             self.pprint_request(resp2.request)
             self.pprint_response(resp2)
 
-        # teardown
+        # teardown: none
 
-    def test_delete_existing_user_token(self):
+    def test_delete_existing_user_with_valid_input_using_token(self):
+        """This test case will delete a valid user using a token."""
         # setup
         user = self.generate_username_password()
         resp1 = self.create_user(user)
@@ -117,12 +129,14 @@ class TestAccountAPI(BaseTest):
             self.pprint_request(resp3.request)
             self.pprint_response(resp3)
 
-        # teardown
+        # teardown: none
 
-    def test_delete_user_with_invalid_uuid_basic_auth(self):
+    def test_delete_user_with_invalid_uuid_using_basic_auth(self):
+        """This test case will attempt to delete a user with an invalid UUID using Basic Auth."""
         # setup
         user = self.generate_username_password()
         resp1 = self.create_user(user)
+        resp_body1 = resp1.json()
         try:
             assert resp1.status_code == 201
         except AssertionError:
@@ -144,4 +158,11 @@ class TestAccountAPI(BaseTest):
             self.pprint_response(resp2)
 
         # teardown
-        # todo: need to delete the user
+        resp3 = self.delete_user_basic_auth(resp_body1["userID"], user)
+        try:
+            assert resp3.status_code == 204
+        except AssertionError:
+            raise
+        finally:
+            self.pprint_request(resp3.request)
+            self.pprint_response(resp3)
