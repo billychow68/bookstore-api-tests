@@ -1,10 +1,11 @@
+from tests.base_test import BaseTest
 import pytest
 import uuid
-from tests.base_test import BaseTest
+import time
 
 
 class TestAccountAPI(BaseTest):
-    """This class contains the test cases for Account API."""
+    """This class contains the test cases for the Account API."""
 
     def test_create_user_with_valid_input(self):
         """This test case will create a user with valid input."""
@@ -16,6 +17,7 @@ class TestAccountAPI(BaseTest):
         resp_body = resp.json()
         try:
             assert resp.status_code == 201
+            assert resp.headers["Content-Type"] == "application/json; charset=utf-8"
             assert resp_body["username"] == user["userName"]
             assert resp_body["userID"] != ""
         except AssertionError:
@@ -59,6 +61,7 @@ class TestAccountAPI(BaseTest):
         resp = self.create_user(user)
         try:
             assert resp.status_code == status_code
+            assert resp.headers["Content-Type"] == "application/json; charset=utf-8"
             assert resp.text.find("Passwords must have at least one non alphanumeric character") == len_
         except AssertionError:
             raise
@@ -67,14 +70,55 @@ class TestAccountAPI(BaseTest):
             self.pprint_response(resp)
 
         # teardown: none
+        
+    def test_create_duplicate_user(self):
+        """This test case will attempt to create a duplicate user."""
+        # setup
+        user = self.generate_username_password()
+        resp = self.create_user(user)
+        resp_body = resp.json()
+        try:
+            assert resp.status_code == 201
+            assert resp.headers["Content-Type"] == "application/json; charset=utf-8"
+            assert resp_body["username"] == user["userName"]
+            assert resp_body["userID"] != ""
+        except AssertionError:
+            raise
+        finally:
+            self.pprint_request(resp.request)
+            self.pprint_response(resp)
 
-    def test_delete_existing_user_with_valid_input_using_basic_auth(self):
+        # test
+        resp2 = self.create_user(user)
+        resp_body2 = resp2.json()
+        try:
+            assert resp2.status_code == 406
+            assert resp_body2["code"] == "1204"
+            assert resp_body2["message"] == "User exists!"
+        except AssertionError:
+            raise
+        finally:
+            self.pprint_request(resp2.request)
+            self.pprint_response(resp2)
+
+        # teardown:
+        resp3 = self.delete_user_basic_auth(resp_body["userID"], user)
+        try:
+            assert resp3.status_code == 204
+        except AssertionError:
+            raise
+        finally:
+            self.pprint_request(resp3.request)
+            self.pprint_response(resp3)
+
+    def test_delete_user_with_valid_input_using_basic_auth(self):
         """This test case will delete a valid user using Basic Auth."""
         # setup
         user = self.generate_username_password()
         resp = self.create_user(user)
         try:
             assert resp.status_code == 201
+            assert resp.headers["Content-Type"] == "application/json; charset=utf-8"
         except AssertionError:
             raise
         finally:
@@ -94,13 +138,14 @@ class TestAccountAPI(BaseTest):
 
         # teardown: none
 
-    def test_delete_existing_user_with_valid_input_using_token(self):
+    def test_delete_user_with_valid_input_using_token(self):
         """This test case will delete a valid user using a token."""
         # setup
         user = self.generate_username_password()
         resp1 = self.create_user(user)
         try:
             assert resp1.status_code == 201
+            assert resp1.headers["Content-Type"] == "application/json; charset=utf-8"
         except AssertionError:
             raise
         finally:
@@ -139,6 +184,7 @@ class TestAccountAPI(BaseTest):
         resp_body1 = resp1.json()
         try:
             assert resp1.status_code == 201
+            assert resp1.headers["Content-Type"] == "application/json; charset=utf-8"
         except AssertionError:
             raise
         finally:
@@ -159,6 +205,188 @@ class TestAccountAPI(BaseTest):
 
         # teardown
         resp3 = self.delete_user_basic_auth(resp_body1["userID"], user)
+        try:
+            assert resp3.status_code == 204
+        except AssertionError:
+            raise
+        finally:
+            self.pprint_request(resp3.request)
+            self.pprint_response(resp3)
+
+    def test_generate_token_for_valid_user(self):
+        """This test case will generate a token for a valid user."""
+        # setup
+        user = self.generate_username_password()
+        resp = self.create_user(user)
+        resp_body = resp.json()
+        try:
+            assert resp.status_code == 201
+            assert resp.headers["Content-Type"] == "application/json; charset=utf-8"
+            assert resp_body["username"] == user["userName"]
+            assert resp_body["userID"] != ""
+        except AssertionError:
+            raise
+        finally:
+            self.pprint_request(resp.request)
+            self.pprint_response(resp)
+
+        # test
+        resp2 = self.generate_token(user)
+        resp_body2 = resp2.json()
+        try:
+            assert resp2.status_code == 200
+            assert resp_body2["token"] is not None
+            assert resp_body2["expires"] is not None
+            assert resp_body2["status"] == "Success"
+            assert resp_body2["result"] == "User authorized successfully."
+        except AssertionError:
+            raise
+        finally:
+            self.pprint_request(resp2.request)
+            self.pprint_response(resp2)
+
+        # teardown:
+        resp = self.delete_user_basic_auth(resp_body["userID"], user)
+        try:
+            assert resp.status_code == 204
+        except AssertionError:
+            raise
+        finally:
+            self.pprint_request(resp.request)
+            self.pprint_response(resp)
+
+    def test_generate_multiple_tokens_for_user(self):
+        """This test case will generate multiple tokens for a user."""
+        # setup
+        user = self.generate_username_password()
+        resp = self.create_user(user)
+        resp_body = resp.json()
+        try:
+            assert resp.status_code == 201
+            assert resp.headers["Content-Type"] == "application/json; charset=utf-8"
+            assert resp_body["username"] == user["userName"]
+            assert resp_body["userID"] != ""
+        except AssertionError:
+            raise
+        finally:
+            self.pprint_request(resp.request)
+            self.pprint_response(resp)
+
+        # test
+        for x in range(3):
+            resp2 = self.generate_token(user)
+            resp_body2 = resp2.json()
+            try:
+                assert resp2.status_code == 200
+                assert resp_body2["token"] != ""
+                assert resp_body2["expires"] != ""
+                assert resp_body2["status"] == "Success"
+                assert resp_body2["result"] == "User authorized successfully."
+            except AssertionError:
+                raise
+            finally:
+                self.pprint_request(resp2.request)
+                self.pprint_response(resp2)
+            # todo: Without the sleep, this test case fails at random. Possible performance bug?
+            time.sleep(1)
+
+        # teardown:
+        resp = self.delete_user_basic_auth(resp_body["userID"], user)
+        try:
+            assert resp.status_code == 204
+        except AssertionError:
+            raise
+        finally:
+            self.pprint_request(resp.request)
+            self.pprint_response(resp)
+
+    def test_generate_token_for_invalid_user(self):
+        """This test case will generate a token for a invalid user."""
+        # setup: none
+        user = {"userName": "user", "password": "1234"}
+
+        # test
+        resp = self.generate_token(user)
+        resp_body = resp.json()
+        try:
+            assert resp.status_code == 200
+            assert resp.headers["Content-Type"] == "application/json; charset=utf-8"
+            assert resp_body["token"] is None
+            assert resp_body["expires"] is None
+            assert resp_body["status"] == "Failed"
+            assert resp_body["result"] == "User authorization failed."
+        except AssertionError:
+            raise
+        finally:
+            self.pprint_request(resp.request)
+            self.pprint_response(resp)
+
+        # teardown:
+
+    def test_get_valid_user_using_basic_auth(self):
+        """This test case will get a valid user using basic auth."""
+        # setup
+        user = self.generate_username_password()
+        resp = self.create_user(user)
+        resp_body = resp.json()
+        try:
+            assert resp.status_code == 201
+            assert resp.headers["Content-Type"] == "application/json; charset=utf-8"
+            assert resp_body["username"] == user["userName"]
+            assert resp_body["userID"] != ""
+        except AssertionError:
+            raise
+        finally:
+            self.pprint_request(resp.request)
+            self.pprint_response(resp)
+
+        # test
+        resp2 = self.get_user_basic_auth(resp_body["userID"], user)
+        resp_body2 = resp2.json()
+        assert resp2.status_code == 200
+        assert resp2.headers["Content-Type"] == "application/json; charset=utf-8"
+        assert resp_body2["userId"] == resp_body["userID"]
+        assert resp_body2["username"] == user["userName"]
+        assert resp_body2["books"] == []
+
+        # teardown:
+        resp3 = self.delete_user_basic_auth(resp_body["userID"], user)
+        try:
+            assert resp3.status_code == 204
+        except AssertionError:
+            raise
+        finally:
+            self.pprint_request(resp3.request)
+            self.pprint_response(resp3)
+
+    def test_get_invalid_user_using_basic_auth(self):
+        """This test case will get an invalid user using basic auth."""
+        # setup
+        user = self.generate_username_password()
+        resp = self.create_user(user)
+        resp_body = resp.json()
+        try:
+            assert resp.status_code == 201
+            assert resp.headers["Content-Type"] == "application/json; charset=utf-8"
+            assert resp_body["username"] == user["userName"]
+            assert resp_body["userID"] != ""
+        except AssertionError:
+            raise
+        finally:
+            self.pprint_request(resp.request)
+            self.pprint_response(resp)
+        uuid_ = str(uuid.uuid4())
+
+        # test
+        resp2 = self.get_user_basic_auth(uuid_, user)
+        resp_body2 = resp2.json()
+        assert resp2.status_code == 401
+        assert resp2.headers["Content-Type"] == "application/json; charset=utf-8"
+        assert resp_body2["code"] == "1207"
+        assert resp_body2["message"] == "User not found!"
+
+        # teardown:
+        resp3 = self.delete_user_basic_auth(resp_body["userID"], user)
         try:
             assert resp3.status_code == 204
         except AssertionError:

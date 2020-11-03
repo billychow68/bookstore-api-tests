@@ -13,7 +13,7 @@ install:
 test:
 	# pytest -s -v --setup-show -p no:randomly --html=reports/report.html --self-contained-html
     # pytest -s -v --setup-show -n auto --html=reports/report.html --self-contained-html --capture=sys
-	pytest -v --setup-show -n auto --html=reports/report.html --self-contained-html
+	pytest -v --setup-show -n auto --count=1
 	# pytest -s -v --setup-show -n auto -p no:randomly --html=reports/report.html --self-contained-html
 	# pytest -s -v --setup-show -n auto -p no:randomly --html=reports/report.html --self-contained-html --count=10
 
