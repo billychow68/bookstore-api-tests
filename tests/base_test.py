@@ -59,6 +59,12 @@ class BaseTest:
     def get_user_token(self, uuid_, token):
         pass
 
+    def get_books(self):
+        print("[TEST STEP][BaseTest::get_books]")
+        url = self.base_url + '/BookStore/v1/Books'
+        headers = {'Content-Type': "application/json"}
+        return requests.get(url, json=headers)
+
     def pprint_request(self, request):
         """This method will pretty print the Request object to HTML report."""
         print('\n{}\n{}\n\n{}\n\n{}\n'.format(
