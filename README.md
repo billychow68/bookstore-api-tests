@@ -1,6 +1,6 @@
 # bookstore-api-tests
 
-__Description__: Demonstrate test automation of [Book Store API](https://demoqa.com/swagger) using Python and PyTest.
+__Description__: Demonstrate API test automation of [Book Store API](https://demoqa.com/swagger) using Python and PyTest.
 
 __Platform__: Darwin
 
