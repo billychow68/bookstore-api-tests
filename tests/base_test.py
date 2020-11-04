@@ -50,6 +50,7 @@ class BaseTest:
         return requests.post(url, user)
 
     def get_user_basic_auth(self, uuid_, user):
+        """This method will return the user using basic auth."""
         print("[TEST STEP][BaseTest::get_user_basic_auth]")
         url = self.base_url + '/Account/v1/User/' + uuid_
         auth = HTTPBasicAuth(user["userName"], user["password"])
@@ -60,10 +61,28 @@ class BaseTest:
         pass
 
     def get_books(self):
+        """This method will return all books available."""
         print("[TEST STEP][BaseTest::get_books]")
         url = self.base_url + '/BookStore/v1/Books'
         headers = {'Content-Type': "application/json"}
         return requests.get(url, json=headers)
+
+    def get_book_by_isbn(self, isbn):
+        """This method will return a book by ISBN."""
+        print("[TEST STEP][BaseTest::get_book_by_isbn]")
+        url = self.base_url + '/BookStore/v1/Book?ISBN=' + isbn
+        headers = {'Content-Type': "application/json"}
+        return requests.get(url, json=headers)
+
+    def is_book_in_books(self, book, books):
+        """This method will return True if the 'book' is in the list of 'books', otherwise False."""
+        print("[TEST STEP][BaseTest::is_book_in_books]")
+        len_ = len(books)
+        for b in range(len_):
+            if book["isbn"] == books[b]["isbn"]:
+                if book == books[b]:
+                    return True
+        return False
 
     def pprint_request(self, request):
         """This method will pretty print the Request object to HTML report."""
