@@ -288,6 +288,50 @@ class TestBookStoreAPI(BaseTest):
             self.pprint_response(resp2)
 
         # test
+        resp3 = self.delete_a_book_from_user_collection(resp_body2["books"][0]["isbn"], resp_body["userID"], user)
+        assert resp3.status_code == 204
+
+        # teadown
+        resp4 = self.delete_user_basic_auth(resp_body["userID"], user)
+        try:
+            assert resp4.status_code == 204
+        except AssertionError:
+            raise
+        finally:
+            self.pprint_request(resp4.request)
+            self.pprint_response(resp4)
+
+    def test_delete_a_book_from_user_collection_failure_due_to_invalid_isbn(self):
+        # setup
+        user = self.generate_username_password()
+        resp = self.create_user(user)
+        resp_body = resp.json()
+        try:
+            assert resp.status_code == 201
+            assert resp.headers["Content-Type"] == "application/json; charset=utf-8"
+            assert resp_body["username"] == user["userName"]
+            assert resp_body["userID"] != ""
+        except AssertionError:
+            raise
+        finally:
+            self.pprint_request(resp.request)
+            self.pprint_response(resp)
+        data = json.loads(self.data2)
+        data["userId"] = resp_body["userID"]
+        resp2 = self.add_books_to_user_collection(user, data)
+        resp_body2 = resp2.json()
+        try:
+            assert resp2.status_code == 201
+            assert resp2.headers["Content-Type"] == "application/json; charset=utf-8"
+            # todo: rewrite to assert on dicts, not ISBNs
+            assert resp_body2["books"][0]["isbn"] == data["collectionOfIsbns"][0]["isbn"]
+        except AssertionError:
+            raise
+        finally:
+            self.pprint_request(resp2.request)
+            self.pprint_response(resp2)
+
+        # test
         resp3 = self.delete_a_book_from_user_collection("1234567890", resp_body["userID"], user)
         resp_body3 = resp3.json()
         assert resp3.status_code == 400
