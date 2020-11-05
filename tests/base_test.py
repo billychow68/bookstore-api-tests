@@ -84,6 +84,29 @@ class BaseTest:
                     return True
         return False
 
+    def add_books_to_user_collection(self, user, books):
+        """This method will add a book to the user's collection."""
+        print("[TEST STEP][BaseTest::add_books_to_user_collection]")
+        url = self.base_url + '/BookStore/v1/Books'
+        headers = {'Content-Type': "application/json"}
+        auth = HTTPBasicAuth(user["userName"], user["password"])
+        return requests.post(url, json=books, headers=headers, auth=auth)
+
+    def delete_books_from_user_collection(self, uuid_, user):
+        """This method will delete all books from the user's collection."""
+        print("[TEST STEP][BaseTest::delete_books_from_user_collection]")
+        url = self.base_url + '/BookStore/v1/Books?UserId=' + uuid_
+        auth = HTTPBasicAuth(user["userName"], user["password"])
+        return requests.delete(url, auth=auth)
+
+    def delete_a_book_from_user_collection(self, isbn, uuid_, user):
+        """This method will delete a book from the user's collection."""
+        print("[TEST STEP][BaseTest::delete_a_book_from_user_collection]")
+        url = self.base_url + '/BookStore/v1/Book'
+        payload = dict({"isbn": isbn, "userId": uuid_})
+        auth = HTTPBasicAuth(user["userName"], user["password"])
+        return requests.delete(url, auth=auth, json=payload)
+
     def pprint_request(self, request):
         """This method will pretty print the Request object to HTML report."""
         print('\n{}\n{}\n\n{}\n\n{}\n'.format(
