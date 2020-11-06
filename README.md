@@ -9,7 +9,7 @@ __Platform__: Darwin
  * Parallel execution (~5x faster than sequential)
  * Random execution
  * Parametrize (DDT) test cases
- * HTML report
+ * HTML report with request/response logs
  * Performance profiling
  * No data collision
  * Repeat N-time(s) excecution
