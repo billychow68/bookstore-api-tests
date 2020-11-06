@@ -8,6 +8,7 @@ import rootpath
 class TestBookStoreAPI(BaseTest):
     """This class contains the test cases for the BookStore API."""
 
+    @pytest.mark.smoketest
     def test_get_books(self):
         """This test case will retrieve the books."""
         # setup
@@ -79,6 +80,7 @@ class TestBookStoreAPI(BaseTest):
 
     data2 = '{"userId": "", "collectionOfIsbns": [{"isbn": "9781449325862"}]}'
 
+    @pytest.mark.smoketest
     def test_add_1_book_to_user_collection(self):
         # setup
         user = self.generate_username_password()
@@ -165,6 +167,7 @@ class TestBookStoreAPI(BaseTest):
             self.pprint_request(resp3.request)
             self.pprint_response(resp3)
 
+    @pytest.mark.smoketest
     def test_delete_books_from_user_collection(self):
         # setup
         user = self.generate_username_password()
@@ -257,6 +260,7 @@ class TestBookStoreAPI(BaseTest):
             self.pprint_request(resp4.request)
             self.pprint_response(resp4)
 
+    @pytest.mark.smoketest
     def test_delete_a_book_from_user_collection(self):
         # setup
         user = self.generate_username_password()
@@ -348,6 +352,7 @@ class TestBookStoreAPI(BaseTest):
             self.pprint_request(resp4.request)
             self.pprint_response(resp4)
 
+    @pytest.mark.smoketest
     def test_replace_book(self):
         # setup
         user = self.generate_username_password()
