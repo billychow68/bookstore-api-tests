@@ -107,6 +107,14 @@ class BaseTest:
         auth = HTTPBasicAuth(user["userName"], user["password"])
         return requests.delete(url, auth=auth, json=payload)
 
+    def replace_book(self, cur_isbn, new_isbn, uuid_, user):
+        """This method will update the user's collection by replacing the current book (ISBN) with the new book (ISBN)."""
+        print("[TEST STEP][BaseTest::replace_book]")
+        url = self.base_url + '/BookStore/v1/Books/' + cur_isbn
+        payload = dict({"userId": uuid_, "isbn": new_isbn})
+        auth = HTTPBasicAuth(user["userName"], user["password"])
+        return requests.put(url, auth=auth, json=payload)
+
     def pprint_request(self, request):
         """This method will pretty print the Request object to HTML report."""
         print('\n{}\n{}\n\n{}\n\n{}\n'.format(
