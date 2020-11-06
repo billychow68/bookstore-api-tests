@@ -12,7 +12,7 @@ __Platform__: Darwin
  * HTML report with request/response logs
  * Performance profiling
  * No data collision
- * Repeat N-time(s) execcution
+ * Repeat N-time(s) execution
 
 ## Prerequisite Software
 
