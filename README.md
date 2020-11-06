@@ -4,6 +4,16 @@ __Description__: Demonstrate API test automation of [Book Store API](https://dem
 
 __Platform__: Darwin
 
+# Features
+ * Pytest test framework
+ * Parallel execution (~5x faster than sequential)
+ * Random execution
+ * Parametrize (DDT) test cases
+ * HTML report
+ * Performance profiling
+ * No data collision
+ * Repeat N-time(s) excecution
+
 ## Prerequisite Software
 
 Download and install [Python 3.9.0](https://www.python.org/downloads/release/python-390/) for Mac.
