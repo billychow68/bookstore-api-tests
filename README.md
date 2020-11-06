@@ -4,7 +4,7 @@ __Description__: Demonstrate API test automation of [Book Store API](https://dem
 
 __Platform__: Darwin
 
-# Features
+## Features
  * Pytest test framework
  * Parallel execution (~5x faster than sequential)
  * Random execution
