@@ -10,6 +10,7 @@ __Platform__: Darwin
  * Random execution
  * Parametrize (DDT) test cases
  * HTML report with request/response logs
+ * Categorize tests (smoke vs regression)
  * Performance profiling
  * No data collision
  * Repeat N-time(s) execution
