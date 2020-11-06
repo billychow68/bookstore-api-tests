@@ -17,6 +17,9 @@ test:
 	# pytest -s -v --setup-show -n auto -p no:randomly --html=reports/report.html --self-contained-html
 	# pytest -s -v --setup-show -n auto -p no:randomly --html=reports/report.html --self-contained-html --count=10
 
+smoketest:
+	pytest -v --setup-show -n auto -m "smoketest"
+
 lint:
 	pylint tests
 

@@ -7,6 +7,7 @@ import time
 class TestAccountAPI(BaseTest):
     """This class contains the test cases for the Account API."""
 
+    @pytest.mark.smoketest
     def test_create_user_with_valid_input(self):
         """This test case will create a user with valid input."""
         # setup
@@ -111,6 +112,7 @@ class TestAccountAPI(BaseTest):
             self.pprint_request(resp3.request)
             self.pprint_response(resp3)
 
+    @pytest.mark.smoketest
     def test_delete_user_with_valid_input_using_basic_auth(self):
         """This test case will delete a valid user using Basic Auth."""
         # setup
@@ -213,6 +215,7 @@ class TestAccountAPI(BaseTest):
             self.pprint_request(resp3.request)
             self.pprint_response(resp3)
 
+    @pytest.mark.smoketest
     def test_generate_token_for_valid_user(self):
         """This test case will generate a token for a valid user."""
         # setup
@@ -323,7 +326,8 @@ class TestAccountAPI(BaseTest):
 
         # teardown:
 
-    def test_get_valid_user_using_basic_auth(self):
+    @pytest.mark.smoketest
+    def test_get_user_using_basic_auth(self):
         """This test case will get a valid user using basic auth."""
         # setup
         user = self.generate_username_password()
@@ -359,7 +363,7 @@ class TestAccountAPI(BaseTest):
             self.pprint_request(resp3.request)
             self.pprint_response(resp3)
 
-    def test_get_invalid_user_using_basic_auth(self):
+    def test_user_get_failure_using_basic_auth(self):
         """This test case will get an invalid user using basic auth."""
         # setup
         user = self.generate_username_password()
