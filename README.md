@@ -40,7 +40,7 @@ You should see ```(.bookstore)``` in your command prompt.
 make
 ```
 
-## View the HTML Test Results Report
+## View the HTML Report
 ![reports/report.html](https://github.com/billychow68/bookstore-api-tests/blob/main/report.png)
 
 ## Deactivate Your Virtual Environment
