@@ -41,9 +41,8 @@ make
 ```
 
 ## View the HTML Test Results Report
-```
-reports/report.html
-```
+![reports/report.html](https://github.com/billychow68/bookstore-api-tests/blob/main/report.png)
+
 ## Deactivate Your Virtual Environment
 ```
 deactivate
