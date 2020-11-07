@@ -41,7 +41,7 @@ make
 ```
 
 ## View the HTML Report
-![reports/report.html](https://github.com/billychow68/bookstore-api-tests/blob/main/report.png)
+![reports/report.html](https://github.com/billychow68/bookstore-api-tests/blob/main/demo/report.png)
 
 ## Deactivate Your Virtual Environment
 ```
