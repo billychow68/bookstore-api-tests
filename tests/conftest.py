@@ -3,6 +3,9 @@ import os
 import rootpath
 import shutil
 
+def pytest_html_report_title(report):
+    report.title = "BookStore API Test Report"
+
 def pytest_sessionstart(session):
     path = os.path.join(rootpath.detect(), "reports")
     if os.path.exists(path):
