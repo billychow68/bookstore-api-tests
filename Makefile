@@ -3,7 +3,6 @@ all: install test
 	
 setup:
 	python3 -m venv ~/.bookstore_api
-	echo "\n# Python venv" >> ~/.bash_profile
 	echo "alias bookstore='source ~/.bookstore_api/bin/activate'" >> ~/.bash_profile
 	source ~/.bash_profile
 
