@@ -8,11 +8,11 @@ setup:
 
 install:
 	# pip3 install --upgrade pip && pip3 install -r requirements.txt
-	pip3 install --upgrade pip --no-cache-dir && pip3 install -r requirements.txt --no-cache-dir
+	pip3 install --upgrade --user pip && pip3 install --user -r requirements.txt
 
 test:
 	# pytest -s -v --setup-show -p no:randomly --html=reports/report.html --self-contained-html
-    # pytest -s -v --setup-show -n auto --html=reports/report.html --self-contained-html --capture=sys
+    	# pytest -s -v --setup-show -n auto --html=reports/report.html --self-contained-html --capture=sys
 	pytest -v --setup-show -n auto --count=1
 	# pytest -s -v --setup-show -n auto -p no:randomly --html=reports/report.html --self-contained-html
 	# pytest -s -v --setup-show -n auto -p no:randomly --html=reports/report.html --self-contained-html --count=10
