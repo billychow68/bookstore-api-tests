@@ -14,6 +14,7 @@ pipeline {
         stage('test') {
             steps {
                 echo "test stage"
+                sh '#!/bin/bash'
                 sh 'make setup'
                 sh 'cat ~/.bash_profile'
                 sh 'ls -la ~'
