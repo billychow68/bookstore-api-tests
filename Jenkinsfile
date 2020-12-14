@@ -14,16 +14,17 @@ pipeline {
         stage('test') {
             steps {
                 echo "test stage"
-                sh '''  #!/bin/bash
-                        make setup
-                        cat ~/.bash_profile
-                        ls -la ~
-                        'echo $USER
-                        echo $PATH
-                        source ~/.bookstore_api/bin/activate
-                        echo $VIRTUAL_ENV
-                        echo $PATH
-                        make
+                sh '''  
+                    #!/bin/bash
+                    make setup
+                    cat ~/.bash_profile
+                    ls -la ~
+                    echo $USER
+                    echo $PATH
+                    source ~/.bookstore_api/bin/activate
+                    echo $VIRTUAL_ENV
+                    echo $PATH
+                    make
                 '''
             }
         }
