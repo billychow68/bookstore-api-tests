@@ -2,6 +2,7 @@ all: install test
 	#install lint test
 	
 setup:
+	rm -rf .bookstore_api
 	python3 -m venv ~/.bookstore_api
 	echo "alias bookstore='source ~/.bookstore_api/bin/activate'" >> ~/.bash_profile
 	source ~/.bash_profile
