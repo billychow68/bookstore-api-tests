@@ -18,7 +18,9 @@ pipeline {
                 sh 'cat ~/.bash_profile'
                 sh 'ls -la ~'
                 sh 'echo $USER'
+                sh 'echo $PATH'
                 sh 'source ~/.bookstore_api/bin/activate'
+                sh 'echo $PATH'
                 sh 'make'
             }
         }
