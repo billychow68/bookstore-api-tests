@@ -7,7 +7,8 @@ setup:
 	source ~/.bash_profile
 
 install:
-	pip3 install --upgrade pip && pip3 install -r requirements.txt
+	# pip3 install --upgrade pip && pip3 install -r requirements.txt
+	pip3 install --upgrade pip --no-cache-dir && pip3 install -r requirements.txt --no-cache-dir
 
 test:
 	# pytest -s -v --setup-show -p no:randomly --html=reports/report.html --self-contained-html
