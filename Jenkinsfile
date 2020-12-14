@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    parameters {
+        choice(name: 'Command', choices: ['setup', 'execute tests'])
+    }
 
     stages {
         stage('pre-test') {
@@ -14,18 +17,26 @@ pipeline {
         stage('test') {
             steps {
                 echo "test stage"
-                sh '''  
-                    #!/bin/bash
-                    make setup
-                    cat ~/.bash_profile
-                    ls -la ~
-                    echo $USER
-                    echo $PATH
-                    source ~/.bookstore_api/bin/activate
-                    echo $VIRTUAL_ENV
-                    echo $PATH
-                    make
-                '''
+                if(${parmas.Env}=='setup) {
+                   sh '''
+                        #!/bin/bash
+                        make setup
+                    '''
+                }
+                else {
+                    sh '''  
+                        #!/bin/bash
+                        # make setup
+                        cat ~/.bash_profile
+                        ls -la ~
+                        echo $USER
+                        echo $PATH
+                        source ~/.bookstore_api/bin/activate
+                        echo $VIRTUAL_ENV
+                        echo $PATH
+                        make
+                    '''
+                }
             }
         }
         stage('deploy') {
