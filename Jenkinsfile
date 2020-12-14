@@ -17,7 +17,7 @@ pipeline {
                 sh 'make setup'
                 sh 'cat ~/.bash_profile'
                 sh 'ls -la ~'
-                sh 'cat $USER'
+                sh 'echo $USER'
                 sh 'source ~/.bookstore_api/bin/activate'
                 sh 'make'
             }
