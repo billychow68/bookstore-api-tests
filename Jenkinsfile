@@ -16,7 +16,7 @@ pipeline {
                 echo "test stage"
                 sh 'make setup'
                 sh 'source ~/.bookstore_api/bin/activate'
-                // sh 'make'
+                sh 'make'
             }
         }
         stage('deploy') {
