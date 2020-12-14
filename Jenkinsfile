@@ -15,6 +15,8 @@ pipeline {
             steps {
                 echo "test stage"
                 sh 'make setup'
+                sh 'cat ~/.bash_profile'
+                sh 'ls -la ~'
                 sh 'source ~/.bookstore_api/bin/activate'
                 sh 'make'
             }
