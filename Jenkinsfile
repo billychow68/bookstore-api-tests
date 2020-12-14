@@ -17,7 +17,7 @@ pipeline {
         stage('test') {
             steps {
                 echo "test stage"
-                if( ${params.Env} == 'setup' ) {
+                if( ${params.Command} == 'setup' ) {
                    sh '''
                         #!/bin/bash
                         make setup
