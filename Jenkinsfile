@@ -21,6 +21,7 @@ pipeline {
                 sh 'echo $USER'
                 sh 'echo $PATH'
                 sh 'source ~/.bookstore_api/bin/activate'
+                sh 'echo $VIRTUAL_ENV'
                 sh 'echo $PATH'
                 sh 'make'
             }
