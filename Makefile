@@ -9,7 +9,6 @@ setup:
 
 install:
 	pip3 install --upgrade pip && pip3 install -r requirements.txt
-	# pip3 install --upgrade --user pip && pip3 install --user -r requirements.txt
 
 test:
 	# pytest -s -v --setup-show -p no:randomly --html=reports/report.html --self-contained-html
