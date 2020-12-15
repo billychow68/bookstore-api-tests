@@ -1,7 +1,7 @@
 pipeline {
     agent any
     parameters {
-        choice(name: 'Command', choices: ['setup', 'execute_tests'], name: 'execute_tests', description: '')
+        choice(name: 'Command', choices: ['execute_tests', 'setup'], description: '')
     }
     stages {
         stage('pre-test') {
