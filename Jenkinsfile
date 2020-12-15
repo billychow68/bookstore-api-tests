@@ -3,7 +3,6 @@ pipeline {
     parameters {
         choice(name: 'Command', choices: ['setup', 'execute_tests'], description: '')
     }
-
     stages {
         stage('pre-test') {
             steps {
