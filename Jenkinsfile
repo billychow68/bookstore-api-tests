@@ -43,7 +43,7 @@ pipeline {
                       allowMissing: false,
                       alwaysLinkToLastBuild: true,
                       keepAll: true,
-                      reportDir: '/var/lib/jenkins/workspace/api_tests_job/reports/',
+                      reportDir: '/home/centos/jenkins/workspace/multi-branch_pipeline_test_main/reports/',
                       reportFiles: 'report.html',
                       reportName: "HTML Report"
                     ])
