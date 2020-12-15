@@ -46,4 +46,12 @@ pipeline {
             }
         }
     }
+    publishHTML (target: [
+      allowMissing: false,
+      alwaysLinkToLastBuild: true,
+      keepAll: true,
+      reportDir: '/var/lib/jenkins/workspace/api_tests_job/reports/',
+      reportFiles: 'report.html',
+      reportName: "HTML Report"
+    ])
 }
