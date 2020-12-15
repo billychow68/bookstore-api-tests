@@ -1,5 +1,7 @@
 pipeline {
-    agent any
+    agent {
+        label 'jenkins_slave_1'
+    }
     parameters {
         choice(name: 'Command', choices: ['execute_tests', 'setup'], description: '')
     }
