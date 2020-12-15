@@ -50,4 +50,3 @@ deactivate
 
 ## Demo (PyCharm and Jenkins)
 [demo.mov](https://github.com/billychow68/bookstore-api-tests/blob/main/demo/demo.mov)
-
