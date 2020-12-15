@@ -16,7 +16,28 @@ pipeline {
         stage('test') {
             steps {
                 echo "test stage"
-
+                script { 
+                    if( ${params.Command} == 'setup' ) {
+                       sh '''
+                            #!/bin/bash
+                            make setup
+                        '''
+                    }
+                    else {
+                        sh '''  
+                            #!/bin/bash
+                            # make setup
+                            cat ~/.bash_profile
+                            ls -la ~
+                            echo $USER
+                            echo $PATH
+                            source ~/.bookstore_api/bin/activate
+                            echo $VIRTUAL_ENV
+                            echo $PATH
+                            make
+                        '''
+                    }
+                }
             }
         }
         stage('deploy') {
