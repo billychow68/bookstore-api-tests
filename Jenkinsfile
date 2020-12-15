@@ -17,7 +17,7 @@ pipeline {
             steps {
                 echo "test stage"
                 script { 
-                    if( ${params.Command} == 'setup' ) {
+                    if( params.Command == 'setup' ) {
                        sh '''
                             #!/bin/bash
                             make setup
